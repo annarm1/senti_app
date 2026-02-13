@@ -1,53 +1,39 @@
 import streamlit as st
-from openai import OpenAI
+import numpy as np
+import pandas as pd
+
 
 # Show title and description.
-st.title("📄 Document question answering")
+st.title("Эмоциональный анализ текстов на русском языке")
 st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
+    "Мяу мяу что же будет здесь и как будет выглядеть не знаааааююююю"
+    "Хай хай я просто тестирую платформу"
 )
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
 
-    # Let the user upload a file via `st.file_uploader`.
-    uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
+uploaded_file = st.file_uploader(
+        "Загрузи документ (форматы .txt or .md)", type=("txt", "md", "pdf")
     )
 
-    # Ask the user for a question via `st.text_area`.
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="Can you give me a short summary?",
-        disabled=not uploaded_file,
-    )
 
-    if uploaded_file and question:
+in_text = st.text_input('Здесь можно напечатать текст')
 
-        # Process the uploaded file and question.
-        document = uploaded_file.read().decode()
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
+st.button('Просто кнопочка')
+st.write('Опять текст опять текст')
+st.title("проверяю разные штуки поэтому АЛЯЛАЛЯЛАЛАФУАОТФОЦА")
 
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-        )
 
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+number = st.text_input('Ляляля попробуй вбить цифры например 1 2 3 4 5 6')
+if len(number.split()) > 5:
+    st.write("Хаха как много цифр")
+    st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBAf-0MF3Kz2SMbmDxCzYiVQvRaadyBqL5Hw&s", caption="Ты молодец! Вот тебе котик")
+elif len(number.split()) <= 5 and len(number.split()) != 0:
+    st.write("Ну что так мало цифр????")
+
+st.write('А это просто прикольный график ляляля')
+chart_data = pd.DataFrame(
+     np.random.randn(20, 3),
+     columns=['a', 'b', 'c'])
+
+st.line_chart(chart_data)
